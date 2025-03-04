@@ -19,7 +19,7 @@ This is fully functional E-Commerce web application built using React.js+Vite. T
 
 ## Installation & Setup
 1. Clone the repository:
-    git https://github.com/Venkateshthullibilli/E-commerce
+    git clone https://github.com/Venkateshthullibilli/E-commerce
 2. Navigate to the project directory:
     cd my-app
 3. Install dependencies:
