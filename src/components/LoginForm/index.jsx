@@ -1,6 +1,6 @@
 import {Component, useState} from 'react'
 import Cookies from 'js-cookie'
-import {useHistory,Redirect} from  'react-router-dom'
+import {useNavigate,Navigate} from  'react-router-dom'
 
 import './index.css'
 
@@ -11,7 +11,7 @@ const LoginForm = () => {
   const [showSubmitError,setShowSubmitError] = useState(false)
   const [errorMsg,setErrorMsg] = useState('')
 
-  const history = useHistory()
+  const navigate= useNavigate()
 
 
 
@@ -30,7 +30,7 @@ const LoginForm = () => {
     Cookies.set('jwt_token', jwtToken, {
       expires: 30,
     })
-    history.replace('/')
+    navigate('/')
   }
 
   const onSubmitFailure = errorMsg => {
@@ -97,7 +97,7 @@ const LoginForm = () => {
 
     const jwtToken = Cookies.get('jwt_token')
     if (jwtToken !== undefined) {
-      return <Redirect to="/" />
+      return <Navigate to="/" />
     }
 
     return (

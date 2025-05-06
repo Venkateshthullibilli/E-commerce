@@ -90,7 +90,7 @@ const Header = () => {
       <div className="nav-menu-mobile">
         <ul className="nav-menu-list-mobile">
           <li className="nav-menu-item-mobile">
-          <NavLink exact to="/"  activeClassName="active-link" className="nav-link">
+          <NavLink exact to="/"  className="nav-link">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-home-icon.png"
                 alt="nav home"
@@ -100,7 +100,7 @@ const Header = () => {
           </li>
 
           <li className="nav-menu-item-mobile">
-          <NavLink exact to="/products"  activeClassName="active-link" className="nav-link">
+          <NavLink exact to="/products" className="nav-link">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-products-icon.png"
                 alt="nav products"
@@ -109,7 +109,7 @@ const Header = () => {
             </NavLink>
           </li>
           <li className="nav-menu-item-mobile">
-          <NavLink to="/cart"  activeClassName="active-link" className="nav-link">
+          <NavLink to="/cart" className="nav-link">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-cart-icon.png"
                 alt="nav cart"
