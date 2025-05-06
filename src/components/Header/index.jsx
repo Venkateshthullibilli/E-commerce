@@ -1,34 +1,29 @@
-import { NavLink, withRouter } from  'react-router-dom'
+import { useContext } from 'react'
+import { NavLink,useNavigate } from  'react-router-dom'
 import Cookies from 'js-cookie'
 
 import CartContext from '../../context/CartContext'
 
 import './index.css'
 
-const Header = props => {
+
+const Header = () => {
+  const navigate = useNavigate()
   const onClickLogout = () => {
-    const { history } = props
-
     Cookies.remove('jwt_token')
-    history.replace('/login')
+    navigate('/login')
   }
-
-  const renderCartItemsCount = () => (
-    <CartContext.Consumer>
-      {value => {
-        const {cartList} = value
-        const cartItemsCount = cartList.length
-
-        return (
-          <>
-            {cartItemsCount > 0 ? (
-              <span className="cart-count-badge">{cartList.length}</span>
-            ) : null}
-          </>
-        )
-      }}
-    </CartContext.Consumer>
-  )
+  
+  const {cartList} = useContext(CartContext)
+ 
+  const renderCartItemsCount = () => {
+     const cartItemsCount = cartList.length
+     return (
+      <>
+       {cartItemsCount > 0 ? <span className='cart-count-badge'>{cartList.length}</span>:null}
+      </>
+     ) 
+  }
 
   return (
     <nav className="nav-header">
@@ -65,19 +60,19 @@ const Header = props => {
           </NavLink>
           <ul className="nav-menu">
             <li className="nav-menu-item">
-              <NavLink exact to="/"  activeClassName="active-link" className="nav-link">
+              <NavLink exact to="/" className="nav-link">
                 Home
               </NavLink>
             </li>
 
             <li className="nav-menu-item">
-            <NavLink exact to="/products"  activeClassName="active-link" className="nav-link">
+            <NavLink exact to="/products" className="nav-link">
                 Products
               </NavLink>
             </li>
 
             <li className="nav-menu-item">
-            <NavLink exact to="/cart"  activeClassName="active-link" className="nav-link">
+            <NavLink exact to="/cart" className="nav-link">
                 Cart
                 {renderCartItemsCount()}
               </NavLink>
@@ -129,7 +124,7 @@ const Header = props => {
   )
 }
 
-export default withRouter(Header)
+export default Header
 
 
 
