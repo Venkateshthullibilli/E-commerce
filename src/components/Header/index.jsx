@@ -1,35 +1,33 @@
-import { useContext } from 'react'
-import { NavLink,useNavigate } from  'react-router-dom'
-import Cookies from 'js-cookie'
-
-import CartContext from '../../context/CartContext'
-
-import './index.css'
-
+import { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import "./index.css";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-  const navigate = useNavigate()
+  const cartList = useSelector((state) => state.cartList.cartList);
+  const navigate = useNavigate();
   const onClickLogout = () => {
-    Cookies.remove('jwt_token')
-    navigate('/login')
-  }
-  
-  const {cartList} = useContext(CartContext)
- 
+    Cookies.remove("jwt_token");
+    navigate("/login");
+  };
+
   const renderCartItemsCount = () => {
-     const cartItemsCount = cartList.length
-     return (
+    const cartItemsCount = cartList.length;
+    return (
       <>
-       {cartItemsCount > 0 ? <span className='cart-count-badge'>{cartList.length}</span>:null}
+        {cartItemsCount > 0 ? (
+          <span className="cart-count-badge">{cartList.length}</span>
+        ) : null}
       </>
-     ) 
-  }
+    );
+  };
 
   return (
     <nav className="nav-header">
       <div className="nav-content">
         <div className="nav-bar-mobile-logo-container">
-        <NavLink exact to="/">
+          <NavLink exact to="/">
             <img
               className="website-logo"
               src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
@@ -66,13 +64,13 @@ const Header = () => {
             </li>
 
             <li className="nav-menu-item">
-            <NavLink exact to="/products" className="nav-link">
+              <NavLink exact to="/products" className="nav-link">
                 Products
               </NavLink>
             </li>
 
             <li className="nav-menu-item">
-            <NavLink exact to="/cart" className="nav-link">
+              <NavLink exact to="/cart" className="nav-link">
                 Cart
                 {renderCartItemsCount()}
               </NavLink>
@@ -90,7 +88,7 @@ const Header = () => {
       <div className="nav-menu-mobile">
         <ul className="nav-menu-list-mobile">
           <li className="nav-menu-item-mobile">
-          <NavLink exact to="/"  className="nav-link">
+            <NavLink exact to="/" className="nav-link">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-home-icon.png"
                 alt="nav home"
@@ -100,7 +98,7 @@ const Header = () => {
           </li>
 
           <li className="nav-menu-item-mobile">
-          <NavLink exact to="/products" className="nav-link">
+            <NavLink exact to="/products" className="nav-link">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-products-icon.png"
                 alt="nav products"
@@ -109,7 +107,7 @@ const Header = () => {
             </NavLink>
           </li>
           <li className="nav-menu-item-mobile">
-          <NavLink to="/cart" className="nav-link">
+            <NavLink to="/cart" className="nav-link">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-cart-icon.png"
                 alt="nav cart"
@@ -121,11 +119,7 @@ const Header = () => {
         </ul>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Header
-
-
-
-
+export default Header;

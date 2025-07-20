@@ -1,127 +1,125 @@
-import React,{useEffect, useState} from 'react'
-import {ClipLoader} from 'react-spinners'
-import Cookies from 'js-cookie'
+import React, { useEffect, useState } from "react";
+import { ClipLoader } from "react-spinners";
+import Cookies from "js-cookie";
 
-import FiltersGroup from '../FiltersGroup'
-import ProductCard from '../ProductCard'
-import ProductsHeader from '../ProductsHeader'
+import FiltersGroup from "../FiltersGroup";
+import ProductCard from "../ProductCard";
+import ProductsHeader from "../ProductsHeader";
 
-import './index.css'
+import "./index.css";
 
 const categoryOptions = [
   {
-    name: 'Clothing',
-    categoryId: '1',
+    name: "Clothing",
+    categoryId: "1",
   },
   {
-    name: 'Electronics',
-    categoryId: '2',
+    name: "Electronics",
+    categoryId: "2",
   },
   {
-    name: 'Appliances',
-    categoryId: '3',
+    name: "Appliances",
+    categoryId: "3",
   },
   {
-    name: 'Grocery',
-    categoryId: '4',
+    name: "Grocery",
+    categoryId: "4",
   },
   {
-    name: 'Toys',
-    categoryId: '5',
+    name: "Toys",
+    categoryId: "5",
   },
-]
+];
 
 const sortbyOptions = [
   {
-    optionId: 'PRICE_HIGH',
-    displayText: 'Price (High-Low)',
+    optionId: "PRICE_HIGH",
+    displayText: "Price (High-Low)",
   },
   {
-    optionId: 'PRICE_LOW',
-    displayText: 'Price (Low-High)',
+    optionId: "PRICE_LOW",
+    displayText: "Price (Low-High)",
   },
-]
+];
 
 const ratingsList = [
   {
-    ratingId: '4',
+    ratingId: "4",
     imageUrl:
-      'https://assets.ccbp.in/frontend/react-js/rating-four-stars-img.png',
+      "https://assets.ccbp.in/frontend/react-js/rating-four-stars-img.png",
   },
   {
-    ratingId: '3',
+    ratingId: "3",
     imageUrl:
-      'https://assets.ccbp.in/frontend/react-js/rating-three-stars-img.png',
+      "https://assets.ccbp.in/frontend/react-js/rating-three-stars-img.png",
   },
   {
-    ratingId: '2',
+    ratingId: "2",
     imageUrl:
-      'https://assets.ccbp.in/frontend/react-js/rating-two-stars-img.png',
+      "https://assets.ccbp.in/frontend/react-js/rating-two-stars-img.png",
   },
   {
-    ratingId: '1',
+    ratingId: "1",
     imageUrl:
-      'https://assets.ccbp.in/frontend/react-js/rating-one-star-img.png',
+      "https://assets.ccbp.in/frontend/react-js/rating-one-star-img.png",
   },
-]
+];
 
 const apiStatusConstants = {
-  initial: 'INITIAL',
-  success: 'SUCCESS',
-  failure: 'FAILURE',
-  inProgress: 'IN_PROGRESS',
-}
+  initial: "INITIAL",
+  success: "SUCCESS",
+  failure: "FAILURE",
+  inProgress: "IN_PROGRESS",
+};
 
 const AllProductsSection = () => {
-  const [productsList,setProductsList] = useState([])
-  const [apiStatus,setApiStatus] = useState(apiStatusConstants.initial)
-  const [activeOptionId,setActiveOptionId] = useState(sortbyOptions[0].optionId)
-  const [activeCategoryId,setActiveCategoryId] = useState('')
-  const [searchInput, setSearchInput] = useState('')
-  const [activeRatingId, setActiveRatingId] = useState('')
-
+  const [productsList, setProductsList] = useState([]);
+  const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial);
+  const [activeOptionId, setActiveOptionId] = useState(
+    sortbyOptions[0].optionId
+  );
+  const [activeCategoryId, setActiveCategoryId] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [activeRatingId, setActiveRatingId] = useState("");
 
   const getProducts = async () => {
-    setApiStatus(
-     apiStatusConstants.inProgress
-    )
-    const jwtToken = Cookies.get('jwt_token')
+    setApiStatus(apiStatusConstants.inProgress);
+    const jwtToken = Cookies.get("jwt_token");
 
-    const apiUrl = `https://apis.ccbp.in/products?sort_by=${activeOptionId}&category=${activeCategoryId}&title_search=${searchInput}&rating=${activeRatingId}`
+    const apiUrl = `https://apis.ccbp.in/products?sort_by=${activeOptionId}&category=${activeCategoryId}&title_search=${searchInput}&rating=${activeRatingId}`;
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
-      method: 'GET',
-    }
-    const response = await fetch(apiUrl, options)
+      method: "GET",
+    };
+    const response = await fetch(apiUrl, options);
     if (response.ok) {
-      const fetchedData = await response.json()
-      const updatedData = fetchedData.products.map(product => ({
+      const fetchedData = await response.json();
+      const updatedData = fetchedData.products.map((product) => ({
         title: product.title,
         brand: product.brand,
         price: product.price,
         id: product.id,
         imageUrl: product.image_url,
         rating: product.rating,
-      }))
-      setProductsList(updatedData)
-      setApiStatus(apiStatusConstants.success,)
-
+      }));
+      setProductsList(updatedData);
+      setApiStatus(apiStatusConstants.success);
     } else {
-      setApiStatus(apiStatusConstants.failure)
+      setApiStatus(apiStatusConstants.failure);
     }
-  }
+  };
 
-  useEffect(()=>{
-    getProducts()
-  },[activeOptionId,activeRatingId,activeCategoryId,searchInput])
+  useEffect(() => {
+    getProducts();
+  }, [activeOptionId, activeRatingId, activeCategoryId, searchInput]);
 
   const renderLoadingView = () => (
     <div className="products-loader-container">
-      <ClipLoader color="00BFFF" size={50}/>
+      <ClipLoader color="00BFFF" size={50} />
     </div>
-  )
+  );
 
   const renderFailureView = () => (
     <div className="products-error-view-container">
@@ -137,15 +135,15 @@ const AllProductsSection = () => {
         We are having some trouble processing your request. Please try again.
       </p>
     </div>
-  )
+  );
 
-  const changeSortby = activeOptionId => {
-    setActiveOptionId(activeOptionId)
+  const changeSortby = (activeOptionId) => {
+    setActiveOptionId(activeOptionId);
     // getProducts()
-  }
+  };
 
   const renderProductsListView = () => {
-    const shouldShowProductsList = productsList.length > 0
+    const shouldShowProductsList = productsList.length > 0;
 
     return shouldShowProductsList ? (
       <div className="all-products-container">
@@ -155,7 +153,7 @@ const AllProductsSection = () => {
           changeSortby={changeSortby}
         />
         <ul className="products-list">
-          {productsList.map(product => (
+          {productsList.map((product) => (
             <ProductCard productData={product} key={product.id} />
           ))}
         </ul>
@@ -172,67 +170,63 @@ const AllProductsSection = () => {
           We could not find any products. Try other filters.
         </p>
       </div>
-    )
-  }
+    );
+  };
 
   const renderAllProducts = () => {
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return renderProductsListView()
+        return renderProductsListView();
       case apiStatusConstants.failure:
-        return renderFailureView()
+        return renderFailureView();
       case apiStatusConstants.inProgress:
-        return renderLoadingView()
+        return renderLoadingView();
       default:
-        return null
+        return null;
     }
-  }
-  
+  };
+
   const clearFilters = () => {
-    setSearchInput('');
-    setActiveCategoryId('');
-    setActiveRatingId('');
-    getProducts()
-  }
+    setSearchInput("");
+    setActiveCategoryId("");
+    setActiveRatingId("");
+    getProducts();
+  };
 
-  const changeRating = activeRatingId => {
-    setActiveRatingId(activeRatingId)
+  const changeRating = (activeRatingId) => {
+    setActiveRatingId(activeRatingId);
     // getProducts()
+  };
 
-  }
-
-  const changeCategory = activeCategoryId => {
-  setActiveCategoryId(activeCategoryId)
-  
-  }
+  const changeCategory = (activeCategoryId) => {
+    setActiveCategoryId(activeCategoryId);
+  };
 
   const enterSearchInput = () => {
-    getProducts()
-  }
+    getProducts();
+  };
 
-  const changeSearchInput = searchInput => {
-    setSearchInput(searchInput)
-  }
+  const changeSearchInput = (searchInput) => {
+    setSearchInput(searchInput);
+  };
 
+  return (
+    <div className="all-products-section">
+      <FiltersGroup
+        searchInput={searchInput}
+        categoryOptions={categoryOptions}
+        ratingsList={ratingsList}
+        changeSearchInput={changeSearchInput}
+        enterSearchInput={enterSearchInput}
+        activeCategoryId={activeCategoryId}
+        activeRatingId={activeRatingId}
+        changeCategory={changeCategory}
+        changeRating={changeRating}
+        clearFilters={clearFilters}
+      />
+      {renderAllProducts()}
+    </div>
+  );
+};
 
-    return (
-      <div className="all-products-section">
-        <FiltersGroup
-          searchInput={searchInput}
-          categoryOptions={categoryOptions}
-          ratingsList={ratingsList}
-          changeSearchInput={changeSearchInput}
-          enterSearchInput={enterSearchInput}
-          activeCategoryId={activeCategoryId}
-          activeRatingId={activeRatingId}
-          changeCategory={changeCategory}
-          changeRating={changeRating}
-          clearFilters={clearFilters}
-        />
-        {renderAllProducts()}
-      </div>
-    )
-  }
-
-
-export default AllProductsSection
+export default AllProductsSection;
